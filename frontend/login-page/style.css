@@ -11,9 +11,9 @@
     --btn-color: #111144;
     --btn-text: #fff;
     --btn-hover: #212F46;
-    --social-text: #444;
-    --social-icon: #111144;
-    --icon-color: #444;
+    --mode-text: #444;
+    --mode-icon: #111144;
+    --mode-default: #444;
     --check-text: #333;
     --check-hover: #111144;
     --check-link: #2134C8;
@@ -39,9 +39,9 @@
     --btn-color: #EE2255;
     --btn-text: #E9E9E9;
     --btn-hover: #9F014F;
-    --social-text: #ccc;
-    --social-icon: #fff;
-    --icon-color: #aaa;
+    --mode-text: #ccc;
+    --mode-icon: #fff;
+    --mode-default: #aaa;
     --check-text: #fff;
     --check-hover: #fff;
     --check-link: #CC234D;
@@ -271,62 +271,62 @@
     color: var(--check-hover);
   }
   
-  .social-text {
+  .mode-text {
     padding: 0.7rem 0;
     font-size: 1rem;
-    color: var(--social-text);
+    color: var(--mode-text);
   }
   
-  .social-media {
+  .dark-mode {
     display: flex;
     justify-content: center;
   }
   
-  .social-icon {
+  .mode-icon {
     height: 46px;
     width: 46px;
-    border: 1px solid var(--icon-color);
+    border: 1px solid var(--mode-default);
     margin: 0 0.45rem;
     display: flex;
     justify-content: center;
     align-items: center;
     text-decoration: none;
-    color: var(--icon-color);
+    color: var(--mode-default);
     font-size: 1.1rem;
     border-radius: 50%;
     transition: 0.3s;
   }
   
-  .social-icon:hover {
-    color: var(--social-icon);
-    border-color: var(--social-icon);
+  .mode-icon:hover {
+    color: var(--mode-icon);
+    border-color: var(--mode-icon);
   }
   
   .icon-mode {
     height: 32px;
     width: 32px;
-    border: 1px solid var(--icon-color);
+    border: 1px solid var(--mode-default);
     margin: 40px 5px 0 5px;
     display: flex;
     justify-content: center;
     align-items: center;
     text-decoration: none;
-    color: var(--icon-color);
+    color: var(--mode-default);
     font-size: 1rem;
     border-radius: 50%;
     transition: 0.3s;
   }
   
   .icon-mode:hover {
-    color: var(--social-icon);
-    border-color: var(--social-icon);
+    color: var(--mode-icon);
+    border-color: var(--mode-icon);
   }
   
   .text-mode {
     padding: 0.5rem 0;
     font-size: 0.8rem;
     font-style: italic;
-    color: var(--social-text);
+    color: var(--mode-text);
   }
   
   .panels-container {
