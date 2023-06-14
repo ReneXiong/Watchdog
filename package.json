@@ -1,0 +1,23 @@
+{
+  "name": "safesite",
+  "version": "1.0.0",
+  "description": "PolyHack2023 Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ReneXiong/SafeSite.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ReneXiong/SafeSite/issues"
+  },
+  "homepage": "https://github.com/ReneXiong/SafeSite#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-session": "^1.17.3"
+  }
+}
