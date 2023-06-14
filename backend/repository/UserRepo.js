@@ -2,8 +2,10 @@ const User = require('../model/User.js').model;
 
 //mock-up data for test
 const USER_DB = [
-    new User(0, "abc@123.com", "12345")
+    new User(0, "abc@123.com", "123456")
 ]
+
+let CURR_INDEX = 1;
 
 class UserRepo {
     static async getUser(email) {
@@ -13,7 +15,12 @@ class UserRepo {
     }
 
     static async addUser(email, pwd) {
-        USER_DB.push(new User(1, email, pwd));
+        const user = USER_DB.find((u) => {
+            return u.email === email;
+        })
+        if (user !== undefined) return 0;
+        USER_DB.push(new User(CURR_INDEX, email, pwd));
+        CURR_INDEX++;
         return 1;
     }
 }

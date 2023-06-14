@@ -43,7 +43,7 @@ app.get('/', (req, res) => {
             root: "./view"
         });
     } else {
-        res.redirect(); // redirect to the page after login;
+        //res.redirect(); // redirect to the page after login;
     }
 });
 
