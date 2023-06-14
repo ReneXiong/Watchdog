@@ -6,39 +6,19 @@ class UserController {
         this.res = res;
     }
 
-    validate(email, pwd) {
-        const errors = [];
-
-        if (email === undefined || !email.includes("@")) {
-            errors.push("email must contain @");
-        }
-        if (pwd === undefined || pwd.length < 6) {
-            errors.push("password length must be at least 6");
-        }
-        return errors;
-    }
-
-    //TODO: static hashPassword(pwd) {}
-
     async login() {
         if (this.req.session !== undefined && this.req.session.userId !== undefined) {
             this.res.status(200).json({ result: 'already logged in' });
         } else {
             const email = this.req.body.email;
             const pwd = this.req.body.pwd;
-
-            const errors = this.validate(email, pwd);
-
-            if (errors.length !== 0) {
-                this.res.status(400).json({ result: errors.join(",") });
+            //TODO: add input check
+            const user = await UserRepo.getUser(email);
+            if (user === undefined || user.pwd !== pwd) {
+                this.res.status(403).json({ "message": "account information is not correct" });
             } else {
-                const user = await UserRepo.getUser(email);
-                if (user === undefined || user.pwd !== pwd) {
-                    this.res.status(403).json({ "message": "account information is not correct" });
-                } else {
-                    this.req.session.userId = email;
-                    this.res.status(200).json({ "result": "sucess" });
-                }
+                this.req.session.userId = email;
+                this.res.status(200).json({ "result": "success" });
             }
         }
     }
@@ -46,17 +26,11 @@ class UserController {
     async register() {
         const email = this.req.body.email;
         const pwd = this.req.body.pwd;
-
-        const errors = this.validate(email, pwd);
-        if (errors.length !== 0) {
-            this.res.status(400).json({ result: errors.join(",") });
+        const success = await UserRepo.addUser(email, pwd);
+        if (success) {
+            this.res.status(200).json({ "result": "success" });
         } else {
-            const success = await UserRepo.addUser(email, pwd);
-            if (success) {
-                this.res.status(200).json({ "result": "sucess" });
-            } else {
-                this.res.status(400).json({ "message": "this email has already been registered" });
-            }
+            this.res.status(400).json({ "message": "this email has been registered" });
         }
     }
 
@@ -64,7 +38,25 @@ class UserController {
         if (this.req.session !== undefined) {
             this.req.session.destroy();
         }
-        this.res.status(200).json({ "result": "sucess" });
+
+        this.res.status(200);
+    }
+
+    async forgetPwd() {
+        const email = this.req.body.email;
+        const user = await UserRepo.getUser(email);
+        if (user != undefined) {
+            // TODO send reset email containing the url to reset password
+
+
+
+        } else {
+            this.res.status(400).json({"message": "user does not exist"});
+        }
+
+
+
+
     }
 
 }
