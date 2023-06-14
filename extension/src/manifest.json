@@ -1,0 +1,10 @@
+{
+    "manifest_version": 3,
+    "name": "SafeSite",
+    "version": "1.0",
+    "description": "A extension to cencor potential triggering information.",
+    "permissions": ["activeTab"],
+    "action": {
+        "default_popup": "index.html"
+    }
+}
