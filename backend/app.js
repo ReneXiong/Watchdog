@@ -57,7 +57,9 @@ app.post('/login', globalExceptionHandle((req, res) => new UserController(req, r
 
 app.post('/register', globalExceptionHandle((req, res) => new UserController(req, res).register()));
 
-app.get('/logout', globalExceptionHandle((req, res) => new UserController(req, res).logout()))
+app.get('/logout', globalExceptionHandle((req, res) => new UserController(req, res).logout()));
+
+app.post('/resetPwd', globalExceptionHandle((req, res) => new UserController(req, res).forgetOrResetPwd()));
 
 // app.get('/login_test', (req, res) => {
 //     if (req.session.userId === undefined) {
