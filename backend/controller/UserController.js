@@ -2,7 +2,7 @@ const UserRepo = require('../repository/UserRepo.js').repo;
 
 
 const nodemailer = require('nodemailer');
-const transporter = nodemailer.creatTransport({
+const transporter = nodemailer.createTransport({
     service:'gmail',
     auth: {
         user: 'watchdog51522@gmail.com',     // app account for sending reset email
@@ -63,6 +63,7 @@ class UserController {
             console.log('verification failed');
             return false;
         }
+
 
     }
 
