@@ -54,13 +54,21 @@ class UserController {
         this.res.status(200);
     }
 
-    async verify() {
-        // TODO verify user's verification code
+    async verify(user) {
+        var verificationCode = this.req.body.vcode;
+        if (verificationCode === user.vcode) {
+            console.log('verification successful');
+            return true;
+        } else {
+            console.log('verification failed');
+            return false;
+        }
 
     }
 
-    async changePwd() {
-        // TODO change user's pwd
+    async changeUserPwd(user) {
+        var newPwd = this.req.body.pwd;
+        UserRepo.changePwd(user,newPwd);
     }
 
     async forgetOrResetPwd() {
@@ -75,9 +83,7 @@ class UserController {
                 subject: 'Password reset (watchdog)',
                 text: 'Your verification code is: ' + randomDigits,
             };
-            this.verify();
-            this.changePwd();
-
+            user.vcode = randomDigits;
             transporter.sendMail(mailOptions, (err, info) => {
                 if (err) {
                     console.log(err);
@@ -85,6 +91,13 @@ class UserController {
                     console.log('Email sent: ' + info.response);
                 }
             });
+
+            if (this.verify(user)) {
+                this.changePwd();
+                this.changeUserPwd(user);
+            } else {
+                console.log('Unable to reset the password');
+            }
 
         } else {
             this.res.status(400).json({"message": "user does not exist"});

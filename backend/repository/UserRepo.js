@@ -23,6 +23,11 @@ class UserRepo {
         CURR_INDEX++;
         return 1;
     }
+
+    static async changePwd(user, newPwd) {
+        USER_DB[USER_DB.indexOf(user)].pwd = newPwd;
+        console.log('password successfully changed!');
+    }
 }
 
 exports.repo = UserRepo;

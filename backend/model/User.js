@@ -3,6 +3,7 @@ class User {
         this.id = id;
         this.email = email;
         this.pwd = pwd;
+        this.vcode = undefined;
     }
 }
 
