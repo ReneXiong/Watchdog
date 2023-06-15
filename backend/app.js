@@ -16,7 +16,7 @@ app.use(session({
 }))
 
 app.use(express.json());
-app.use(express.static('public'));
+app.use(express.static('../frontend/login-page/public'));
 
 function auth(func) {
     return (req, res) => {
@@ -39,8 +39,8 @@ function globalExceptionHandle(func) {
 
 app.get('/', (req, res) => {
     if (req.session.userId === undefined) {
-        res.sendFile("login.html", {
-            root: "./view"
+        res.sendFile("index.html", {
+            root: "../frontend/login-page"
         });
     } else {
         //res.redirect(); // redirect to the page after login;
