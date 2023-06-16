@@ -56,6 +56,7 @@ class UserController {
     }
 
     async register() {
+        const username = this.req.body.username;
         const email = this.req.body.email;
         const pwd = this.req.body.pwd;
 
@@ -63,7 +64,7 @@ class UserController {
         if (errors.length !== 0) {
             this.res.status(400).json({ result: errors.join(",") });
         } else {
-            const success = await UserRepo.addUser(email, pwd);
+            const success = await UserRepo.addUser(username, email, pwd);
             if (success) {
                 this.res.status(200).json({ "result": "sucess" });
             } else {
@@ -115,7 +116,8 @@ class UserController {
             this.res.status(400).json({ "message": "user does not exist" });
         }
     }
-
 }
+
+
 
 exports.controller = UserController;
