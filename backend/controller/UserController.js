@@ -1,15 +1,15 @@
 const UserRepo = require('../repository/UserRepo.js').repo;
 
 
-const nodemailer = require('nodemailer');
-const transporter = nodemailer.creatTransport({
-    service: 'gmail',
-    auth: {
-        user: 'watchdog51522@gmail.com', // app account for sending reset email
-        pass: '12345'
-    }
-})
-const crypto = require('crypto');
+// const nodemailer = require('nodemailer');
+// const transporter = nodemailer.creatTransport({
+//     service: 'gmail',
+//     auth: {
+//         user: 'watchdog51522@gmail.com', // app account for sending reset email
+//         pass: '12345'
+//     }
+// })
+// const crypto = require('crypto');
 
 
 class UserController {
@@ -80,42 +80,42 @@ class UserController {
         this.res.status(200).json({ "result": "sucess" });
     }
 
-    async verify() {
-        // TODO verify user's verification code
+    // async verify() {
+    //     // TODO verify user's verification code
 
-    }
+    // }
 
-    async changePwd() {
-        // TODO change user's pwd
-    }
+    // async changePwd() {
+    //     // TODO change user's pwd
+    // }
 
-    async forgetOrResetPwd() {
-        const userEmail = this.req.body.email;
-        const user = await UserRepo.getUser(userEmail);
-        if (user != undefined) {
+    // async forgetOrResetPwd() {
+    //     const userEmail = this.req.body.email;
+    //     const user = await UserRepo.getUser(userEmail);
+    //     if (user != undefined) {
 
-            var randomDigits = crypto.randomBytes(6).toString('base64');
-            var mailOptions = {
-                from: 'watchdog@gmail.com',
-                to: userEmail,
-                subject: 'Password reset (watchdog)',
-                text: 'Your verification code is: ' + randomDigits,
-            };
-            this.verify();
-            this.changePwd();
+    //         var randomDigits = crypto.randomBytes(6).toString('base64');
+    //         var mailOptions = {
+    //             from: 'watchdog@gmail.com',
+    //             to: userEmail,
+    //             subject: 'Password reset (watchdog)',
+    //             text: 'Your verification code is: ' + randomDigits,
+    //         };
+    //         this.verify();
+    //         this.changePwd();
 
-            transporter.sendMail(mailOptions, (err, info) => {
-                if (err) {
-                    console.log(err);
-                } else {
-                    console.log('Email sent: ' + info.response);
-                }
-            });
+    //         transporter.sendMail(mailOptions, (err, info) => {
+    //             if (err) {
+    //                 console.log(err);
+    //             } else {
+    //                 console.log('Email sent: ' + info.response);
+    //             }
+    //         });
 
-        } else {
-            this.res.status(400).json({ "message": "user does not exist" });
-        }
-    }
+    //     } else {
+    //         this.res.status(400).json({ "message": "user does not exist" });
+    //     }
+    // }
 }
 
 
