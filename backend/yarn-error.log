@@ -1,0 +1,59 @@
+Arguments: 
+  /usr/local/Cellar/node/20.2.0/bin/node /usr/local/bin/yarn init
+
+PATH: 
+  /Users/cxbeat/.fig/bin:/Users/cxbeat/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/opt/X11/bin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/MacGPG2/bin:/Applications/Wireshark.app/Contents/MacOS
+
+Yarn version: 
+  1.22.17
+
+Node version: 
+  20.2.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: canceled
+      at Interface.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:137143:13)
+      at Interface.emit (node:events:511:28)
+      at [_ttyWrite] [as _ttyWrite] (node:internal/readline/interface:1124:18)
+      at ReadStream.onkeypress (node:internal/readline/interface:263:20)
+      at ReadStream.emit (node:events:511:28)
+      at emitKeys (node:internal/readline/utils:357:14)
+      at emitKeys.next (<anonymous>)
+      at ReadStream.onData (node:internal/readline/emitKeypressEvents:64:36)
+      at ReadStream.emit (node:events:511:28)
+      at addChunk (node:internal/streams/readable:332:12)
+
+npm manifest: 
+  {
+    "name": "safesite",
+    "version": "1.0.0",
+    "description": "PolyHack2023 Project",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/ReneXiong/SafeSite.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/ReneXiong/SafeSite/issues"
+    },
+    "homepage": "https://github.com/ReneXiong/SafeSite#readme",
+    "dependencies": {
+      "express": "^4.18.2",
+      "express-session": "^1.17.3",
+      "node-mailer": "^0.1.1"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
