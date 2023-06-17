@@ -1,0 +1,30 @@
+{
+	"manifest_version": 2,
+	"name": "Watchdog",
+	"version": "1.0",
+	"description": "A Chrome extension that warns you of potentially disturbing posts.",
+	"permissions": [
+		"activeTab",
+		"https://www.twitter.com/*",
+		"https://www.facebook.com/*"
+	],
+	"content_scripts": [
+		{
+			"matches": [
+				"https://facebook.com/*",
+				"https://*.facebook.com/*",
+				"https://twitter.com/*",
+				"https://*.twitter.com/*"
+			],
+			"js": ["dist/contentScript.bundle.js"]
+		}
+	],
+	"browser_action": {
+		"default_popup": "popup.html"
+	},
+	"icons": {
+		"16": "icon16.png",
+		"48": "icon48.png",
+		"128": "icon128.png"
+	}
+}
