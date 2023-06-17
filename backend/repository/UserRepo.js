@@ -1,11 +1,48 @@
-const User = require('../model/User.js').model;
+const { Sequelize, Model, DataTypes } = require('sequelize');
+const sequelize = new Sequelize('sqlite::memory:');
 
-//mock-up data for test
-const USER_DB = [
-    new User("Wilson Edwarz", "abc@123.com", "123456")
-]
 
-class UserRepo {
+const UserRepo = sequelize.define('User', {
+    // Model attributes are defined here
+    userName: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    Email: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    Pass: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    War: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    Racial: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    Gender: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    Body: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    Sexual: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    }
+}, {
+    // Other model options go here
+});
+
+
+class UserRepo extends Model {
+
     static async getUser(email) {
         return USER_DB.find((u) => {
             return u.email === email;

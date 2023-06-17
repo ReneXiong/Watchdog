@@ -1,3 +1,4 @@
+
 const UserRepo = require('../repository/UserRepo.js').repo;
 
 
@@ -11,16 +12,6 @@ const transporter = nodemailer.createTransport({
     }
 })
 const crypto = require('crypto');
-
-
-// db population
-const mysql = require('mysql');
-const con = mysql.createConnection(({
-    host: "localhost",
-    user: "watchdogAdmin",
-    password: "123456",
-    database: "watchdog_db"
-}))
 
 
 

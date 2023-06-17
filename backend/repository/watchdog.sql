@@ -14,14 +14,3 @@ create table User(
 
 
 	PRIMARY KEY (Email))
-
-
-
--- create table setting(
--- 	War	INTEGER,
--- 	Racial	INTEGER,
--- 	Gender	INTEGER,
--- 	Body	INTEGER,
--- 	Sexual	INTEGER,
-
--- )
