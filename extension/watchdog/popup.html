@@ -1,46 +1,146 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<title>Extension Popup</title>
-		<style>
-			body {
-				width: 300px;
-				height: 200px;
-				padding: 20px;
-			}
-		</style>
-	</head>
-	<body>
-		<h1>Watchdog Settings</h1>
-		<p>Tick which categories you want filtered:</p>
-		<form id="myForm">
-			<label>
-				<input type="checkbox" name="item1" value="Item 1" />
-				War and Gore
-			</label>
-			<br />
-			<label>
-				<input type="checkbox" name="item2" value="Item 2" />
-				Racial and Ethnic Hate
-			</label>
-			<br />
-			<label>
-				<input type="checkbox" name="item3" value="Item 3" />
-				Gender-based hate
-			</label>
-			<br />
-			<label>
-				<input type="checkbox" name="item4" value="Item 4" />
-				Body Dysmorphia
-			</label>
-			<br />
-			<label>
-				<input type="checkbox" name="item4" value="Item 4" />
-				Sexual Violence
-			</label>
-			<br />
-			<br />
-			<button type="submit">Submit</button>
-		</form>
-	</body>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anek+Malayalam:wght@100;200;300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"
+    data-tag="font"
+  />
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
+    data-tag="font"
+  />
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Lexend:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"
+    data-tag="font"
+  />
+  <link rel='stylesheet'href='https://fonts.googleapis.com/css?family=Baloo Bhai' data-tag="font">
+    <link rel="stylesheet" href="popup.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <header>
+      <img
+        src="images/rectangle-top.png"
+        alt="header"
+        class="rectangle-top"
+      />
+      <span class="popup-text"><span>Hello, [username]</span></span>
+      <span class="popup-text02">
+        <span>You are being protected.</span>
+      </span>
+      <div class="settings">
+        <span></span>
+        <div class="popup-group">
+          <img
+            src="./images/settings.svg"
+            alt="settings"
+            class="settingsBtn"
+          />
+        </div>
+        </a>
+      </div>
+    </header>
+    <div class="content">
+      <div class="sites">
+        <div class="sites-content">
+          <span class="header-text"><span>Enabled Sites</span></span>
+          <div class="toggle-list" id="toggleList">
+            <div class="toggle-item">
+              <div class="tooltip-element">
+                <img alt="Reddit logo" src="./images/icon-reddit-128.png" />
+                <span class="tooltip">Reddit</span>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="redditSwitch" />
+                <span class="slider round"></span>
+              </label>
+            </div>
+            <div class="toggle-item">
+              <div class="tooltip-element">
+                <img alt="Twitter logo" src="./images/icon-twitter-128.png" />
+                <span class="tooltip">Twitter</span>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="twitterSwitch" />
+                <span class="slider round"></span>
+              </label>
+            </div>
+            <div class="toggle-item">
+              <div class="tooltip-element">
+                <img alt="Facebook logo" src="./images/icon-facebook-128.png" />
+                <span class="tooltip">Facebook</span>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="facebookSwitch" />
+                <span class="slider round"></span>
+              </label>
+            </div>
+            <form
+              action="https://watchdog.test/subscribe"
+              method="get"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <button id="subscribe-button">Subscribe to WatchDog Premium to get access to more sites.</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="divider-line"></div>
+      <div class="triggers">
+        <div class="triggers-content">
+          <span class="header-text"><span>Selected Triggers</span></span>
+          <div class="trigger-container">
+            <ul class="ks-cboxtags">
+              <li><input type="checkbox" id="checkboxOne" value="War and Gore"><label for="checkboxOne">War and Gore</label></li>
+              <li><input type="checkbox" id="checkboxFive" value="Racial and Ethnic Hate"><label for="checkboxFive">Racial and Ethnic Hate</label></li>
+              <li><input type="checkbox" id="checkboxTwo" value="Gender-based Hate" checked><label for="checkboxTwo">Gender-based hate</label></li>
+              <li><input type="checkbox" id="checkboxThree" value="Body Dysmorphia" checked><label for="checkboxThree">Body Dysmorphia</label></li>
+              <li><input type="checkbox" id="checkboxFour" value="Sexual Violence"><label for="checkboxFour">Sexual Violence</label></li>
+            </ul>
+          </div>
+          <span class="discount-text-1"><span>Want more options?</span></span>
+          <span class="discount-text-2"><span>Get 50% WatchDog Premium.</span></span>
+          <a class="subscribe-button" href="https://watchdog.test/subscribe">Subscribe Now</a>
+        </div>
+      </div>
+    </div>
+    <footer>
+      <div class = "parent-bottom">
+        <img
+        src="./images/rectangle-bottom.png"
+        alt="Rectangle573815"
+        class="rectangle-bottom"
+      />
+        <img
+        src="./images/watchdog-bottom.png"
+        alt="Untitled2trans1110"
+        class="watchdog-bottom"
+        />
+      </div>
+      <!-- <a
+        href="https://oursite.com/help#/"
+        target="_blank"
+        rel="noopener noreferrer"
+        style="margin: 16px"
+      >
+        <span><span class="logo-text"><span>WatchDog</span></span></span>
+        <img class="watchdog-logo" alt="External link icon" src="./images/watchdog-darkblue.png" />
+      </a> -->
+    </footer>
+    <script src="worker/shared.js" defer></script>
+    <script src="popup.js" defer></script>
+  </body>
 </html>
