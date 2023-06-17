@@ -1,15 +1,25 @@
 const UserRepo = require('../repository/UserRepo.js').repo;
 
-
+// mailing function
 const nodemailer = require('nodemailer');
 const transporter = nodemailer.createTransport({
-    service:'gmail',
+    service: 'gmail',
     auth: {
-        user: 'watchdog51522@gmail.com',     // app account for sending reset email
-        pass: '12345'
+        user: 'wdog51522@gmail.com',     // app account for sending reset email
+        pass: 'QW135790'
     }
 })
 const crypto = require('crypto');
+
+// db population
+const mysql = require('mysql');
+const con = mysql.createConnection(({
+    host: "localhost",
+    user: "watchdogAdmin",
+    password: "123456",
+    database: "watchdog_db"
+}))
+
 
 
 class UserController {
@@ -69,7 +79,7 @@ class UserController {
 
     async changeUserPwd(user) {
         var newPwd = this.req.body.pwd;
-        UserRepo.changePwd(user,newPwd);
+        await UserRepo.changePwd(user, newPwd);
     }
 
     async forgetOrResetPwd() {
@@ -79,7 +89,7 @@ class UserController {
 
             var randomDigits = crypto.randomBytes(6).toString('base64');
             var mailOptions = {
-                from: 'watchdog@gmail.com',
+                from: 'yilun.luxue@gmail.com',
                 to: userEmail,
                 subject: 'Password reset (watchdog)',
                 text: 'Your verification code is: ' + randomDigits,
@@ -93,9 +103,9 @@ class UserController {
                 }
             });
 
-            if (this.verify(user)) {
-                this.changePwd();
-                this.changeUserPwd(user);
+            if (await this.verify(user)) {
+                await this.changeUserPwd();
+                await this.changeUserPwd(user);
             } else {
                 console.log('Unable to reset the password');
             }
@@ -104,7 +114,6 @@ class UserController {
             this.res.status(400).json({"message": "user does not exist"});
         }
     }
-
 }
 
 exports.controller = UserController;
