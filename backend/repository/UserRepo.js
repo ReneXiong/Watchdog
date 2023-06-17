@@ -1,26 +1,81 @@
-const User = require('../model/User.js').model;
+const { Sequelize, Model, DataTypes } = require('sequelize');
+const sequelize = new Sequelize('sqlite::memory:');
 
-//mock-up data for test
-const USER_DB = [
-    new User("Wilson Edwarz", "abc@123.com", "123456")
-]
+class UserRepo extends Model {
 
-class UserRepo {
     static async getUser(email) {
-        return USER_DB.find((u) => {
-            return u.email === email;
-        })
+        return await UserRepo.findByPk(email);
     }
 
     static async addUser(username, email, pwd) {
-        const user = USER_DB.find((u) => {
-            return u.email === email;
-        })
-        if (user !== undefined) return 0;
-        USER_DB.push(new User(username, email, pwd));
-        USER_DB.forEach(element => console.log(element));
-        return 1;
+        const [user, created] = await UserRepo.findOrCreate(({
+            where: {Email: email},
+            defaults: {
+                userName: username,
+                Pass: pwd,
+                War: 0,
+                Racial: 0,
+                Gender: 0,
+                Body: 0,
+                Sexual: 0
+            }
+        }))
+
+        console.log(created);
+
+    }
+
+    static async changePwd(email, newPwd) {
+        await UserRepo.update({Pass: newPwd}, {
+            where: {
+              Email: email
+            }
+        });
     }
 }
+
+
+UserRepo.init( {
+    // Model attributes are defined here
+    userName: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    Email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        primaryKey: true
+    },
+    Pass: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    War: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    Racial: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    Gender: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    Body: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    Sexual: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    }
+}, {
+    // Other model options go here
+    sequelize,
+    modelName: 'Users'
+});
+
+
 
 exports.repo = UserRepo;

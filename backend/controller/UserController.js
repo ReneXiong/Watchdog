@@ -1,15 +1,18 @@
+
 const UserRepo = require('../repository/UserRepo.js').repo;
 
 
-// const nodemailer = require('nodemailer');
-// const transporter = nodemailer.creatTransport({
-//     service: 'gmail',
-//     auth: {
-//         user: 'watchdog51522@gmail.com', // app account for sending reset email
-//         pass: '12345'
-//     }
-// })
-// const crypto = require('crypto');
+// mailing function
+const nodemailer = require('nodemailer');
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'wdog51522@gmail.com',     // app account for sending reset email
+        pass: 'QW135790'
+    }
+})
+const crypto = require('crypto');
+
 
 
 class UserController {
@@ -77,47 +80,62 @@ class UserController {
         if (this.req.session !== undefined) {
             this.req.session.destroy();
         }
-        this.res.status(200).json({ "result": "sucess" });
+
+
+        this.res.status(200);
     }
 
-    // async verify() {
-    //     // TODO verify user's verification code
+    async verify(user) {
+        var verificationCode = this.req.body.vcode;
+        if (verificationCode === user.vcode) {
+            console.log('verification successful');
+            return true;
+        } else {
+            console.log('verification failed');
+            return false;
+        }
 
-    // }
 
-    // async changePwd() {
-    //     // TODO change user's pwd
-    // }
+    }
 
-    // async forgetOrResetPwd() {
-    //     const userEmail = this.req.body.email;
-    //     const user = await UserRepo.getUser(userEmail);
-    //     if (user != undefined) {
+    async changeUserPwd(user) {
+        var newPwd = this.req.body.pwd;
+        await UserRepo.changePwd(user, newPwd);
+    }
 
-    //         var randomDigits = crypto.randomBytes(6).toString('base64');
-    //         var mailOptions = {
-    //             from: 'watchdog@gmail.com',
-    //             to: userEmail,
-    //             subject: 'Password reset (watchdog)',
-    //             text: 'Your verification code is: ' + randomDigits,
-    //         };
-    //         this.verify();
-    //         this.changePwd();
+    async forgetOrResetPwd() {
+        const userEmail = this.req.body.email;
+        const user = await UserRepo.getUser(userEmail);
+        if (user != undefined) {
 
-    //         transporter.sendMail(mailOptions, (err, info) => {
-    //             if (err) {
-    //                 console.log(err);
-    //             } else {
-    //                 console.log('Email sent: ' + info.response);
-    //             }
-    //         });
+            var randomDigits = crypto.randomBytes(6).toString('base64');
+            var mailOptions = {
+                from: 'yilun.luxue@gmail.com',
+                to: userEmail,
+                subject: 'Password reset (watchdog)',
+                text: 'Your verification code is: ' + randomDigits,
+            };
+            user.vcode = randomDigits;
+            transporter.sendMail(mailOptions, (err, info) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log('Email sent: ' + info.response);
+                }
+            });
 
-    //     } else {
-    //         this.res.status(400).json({ "message": "user does not exist" });
-    //     }
-    // }
+            if (await this.verify(user)) {
+                await this.changeUserPwd();
+                await this.changeUserPwd(user);
+            } else {
+                console.log('Unable to reset the password');
+            }
+
+        } else {
+            this.res.status(400).json({"message": "user does not exist"});
+        }
+    }
 }
-
 
 
 exports.controller = UserController;
