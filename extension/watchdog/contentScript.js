@@ -10,27 +10,30 @@ const client = axios.create({
 });
 
 function isTrigger(text) {
-	const params = {
-		prompt: `Answer with a Yes or a No only. Does the following text have the potential to upset an individual triggered by ${triggers}?\n +
-			${text}`,
-		model: "davinci-text-003",
-		max_tokens: 2,
-		temperature: 0,
-	};
-	console.log(config.apiKey);
-	client
-		.post("https://api.openai.com/v1/completions", params)
-		.then((result) => {
-			const response = result.data.choices[0].text;
-			console.log(params.prompt);
-			console.log("GPT says", response);
-			if (response === "Yes.") return true;
-			else return false;
-		})
-		.catch((err) => {
-			console.log(err);
-			return false;
-		});
+	let value = Math.random() <= 0.5;
+	console.log(value);
+	return value;
+	// const params = {
+	// 	prompt: `Answer with a Yes or a No only. Does the following text have the potential to upset an individual triggered by ${triggers}?\n +
+	// 		${text}`,
+	// 	model: "davinci-text-003",
+	// 	max_tokens: 2,
+	// 	temperature: 0,
+	// };
+	// console.log(config.apiKey);
+	// client
+	// 	.post("https://api.openai.com/v1/completions", params)
+	// 	.then((result) => {
+	// 		const response = result.data.choices[0].text;
+	// 		console.log(params.prompt);
+	// 		console.log("GPT says", response);
+	// 		if (response === "Yes.") return true;
+	// 		else return false;
+	// 	})
+	// 	.catch((err) => {
+	// 		console.log(err);
+	// 		return false;
+	// 	});
 }
 
 function hideImageTweet(e) {
