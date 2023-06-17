@@ -1,8 +1,41 @@
 const { Sequelize, Model, DataTypes } = require('sequelize');
 const sequelize = new Sequelize('sqlite::memory:');
 
+class UserRepo extends Model {
 
-const UserRepo = sequelize.define('User', {
+    static async getUser(email) {
+        return await UserRepo.findByPk(email);
+    }
+
+    static async addUser(username, email, pwd) {
+        const [user, created] = await UserRepo.findOrCreate(({
+            where: {Email: email},
+            defaults: {
+                userName: username,
+                Pass: pwd,
+                War: 0,
+                Racial: 0,
+                Gender: 0,
+                Body: 0,
+                Sexual: 0
+            }
+        }))
+
+        console.log(created);
+
+    }
+
+    static async changePwd(email, newPwd) {
+        await UserRepo.update({Pass: newPwd}, {
+            where: {
+              Email: email
+            }
+        });
+    }
+}
+
+
+UserRepo.init( {
     // Model attributes are defined here
     userName: {
         type: DataTypes.STRING,
@@ -10,7 +43,8 @@ const UserRepo = sequelize.define('User', {
     },
     Email: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        primaryKey: true
     },
     Pass: {
         type: DataTypes.STRING,
@@ -38,31 +72,10 @@ const UserRepo = sequelize.define('User', {
     }
 }, {
     // Other model options go here
+    sequelize,
+    modelName: 'Users'
 });
 
 
-class UserRepo extends Model {
-
-    static async getUser(email) {
-        return USER_DB.find((u) => {
-            return u.email === email;
-        })
-    }
-
-    static async addUser(username, email, pwd) {
-        const user = USER_DB.find((u) => {
-            return u.email === email;
-        })
-        if (user !== undefined) return 0;
-        USER_DB.push(new User(username, email, pwd));
-        USER_DB.forEach(element => console.log(element));
-        return 1;
-    }
-
-    static async changePwd(user, newPwd) {
-        USER_DB[USER_DB.indexOf(user)].pwd = newPwd;
-        console.log('password successfully changed!');
-    }
-}
 
 exports.repo = UserRepo;
