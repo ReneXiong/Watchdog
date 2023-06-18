@@ -109,6 +109,11 @@ h3 {
 
 /*------- Top: Enabled Sites -------*/
 
+a {
+	text-decoration: none;
+	color: black;
+}
+
 #reddit-img {
 	opacity: 50%;
 }

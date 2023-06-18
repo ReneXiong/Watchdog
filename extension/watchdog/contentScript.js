@@ -66,10 +66,6 @@ function isTrigger(text) {
 			client
 				.post("https://api.openai.com/v1/chat/completions", params)
 				.then((response) => {
-					console.log(response);
-					console.log(
-						`Message: ${text}\nTriggers: ${triggers}\nResponse: ${response.data.choices[0].message.content}`
-					);
 					if (response.data.choices[0].message.content == "Yes.") {
 						resolve(true);
 					} else resolve(false);
@@ -128,17 +124,14 @@ function findInnerFacebook(e) {
 function hidePosts() {
 	chrome.storage.sync.get("settings", function (result) {
 		const settings = result.settings;
-		console.log(settings);
 		// TWITTER
 		const twt = "https://twitter.com";
 		const regex_twt = new RegExp(`^${twt}`);
 		if (settings["twitter"] && regex_twt.test(window.location.href)) {
-			console.log("Checking tweets");
 			const tweets = document.querySelectorAll("article");
 			tweets.forEach((tweet) => {
 				isTrigger(tweet.textContent).then((triggerDetected) => {
 					if (triggerDetected) {
-						console.log("Trigger detected!");
 						let topSpan = findSpans(tweet)[0].innerText.split(" ");
 						if (topSpan[topSpan.length - 1] === "Retweeted") {
 							findSpans(tweet)[8].parentNode.innerHTML =
@@ -157,7 +150,6 @@ function hidePosts() {
 		const fb = "https://www.facebook.com";
 		const regex_fb = new RegExp(`^${fb}`);
 		if (settings["facebook"] && regex_fb.test(window.location.href)) {
-			console.log("Checking posts");
 			const posts = document.querySelectorAll('div[data-ad-preview="message"]');
 			posts.forEach((post) => {
 				isTrigger(post.textContent).then((triggerDetected) => {
