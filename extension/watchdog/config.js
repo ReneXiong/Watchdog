@@ -1,12 +1,15 @@
 const config = {
-	apiKey: "INSERT_YOUR_API_KEY_HERE", // can't use mine as it's now rate-limited
+	apiKey: "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",
 	triggers: [
-		"War and Gore",
-		"Body Dysmorphia",
-		"Sexual Violence",
-		"Gender-related Trauma",
-		"Race-related Trauma",
+		"War and gore",
+		"Race-based hate",
+		"Gender-based hate",
+		"Body image hate",
+		"Sexual violence",
+		"Self harm",
 	],
 };
 
-export default config;
+module.exports = config;
+
+// export default config;

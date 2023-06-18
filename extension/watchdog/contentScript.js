@@ -1,6 +1,7 @@
 import config from "./config.js";
 import axios from "axios";
 const triggers = config.triggers.join(", ");
+let queries = 0;
 
 // const client = axios.create({
 // 	headers: {
@@ -40,6 +41,7 @@ function hideImage(e) {
 		if (element.tagName.toLowerCase() === "img" && element.alt !== "") {
 			console.log(element);
 			element.style.filter = "blur(20px)";
+			element.parentNode.style.filter = "blur(20px)";
 		}
 		for (let i = 0; i < element.children.length; i++) {
 			const child = element.children[i];
@@ -75,6 +77,8 @@ function findInnerFacebook(e) {
 }
 
 function hidePosts() {
+	queries++;
+	console.log(queries);
 	// TWITTER
 	const twt = "https://twitter.com";
 	const regex_twt = new RegExp(`^${twt}`);
@@ -108,7 +112,6 @@ function hidePosts() {
 				post.innerHTML = `<i>This post contains themes that may upset you.</i><br/><br/><small>This warning was brought to you by <b>Watchdog.</b></small>`;
 			}
 			hideImage(post.parentNode.parentNode);
-			console.log(post.parentNode.parentNode);
 		});
 	}
 }
