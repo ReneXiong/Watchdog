@@ -10,6 +10,8 @@ const client = axios.create({
 		Authorization: "Bearer " + config.apiKey,
 	},
 });
+
+// Enter custom triggers here
 const params = {
 	messages: [
 		{
@@ -26,12 +28,14 @@ const params = {
 	max_tokens: 2,
 	temperature: 0,
 };
+
 console.log(text);
 console.log("Is this triggering?");
 client
 	.post("https://api.openai.com/v1/chat/completions", params)
 	.then((response) => {
 		console.log(response.data.choices[0].message.content);
+		// Measure time
 		console.log(
 			`Code execution time: ${performance.now() - startTime} milliseconds`
 		);
