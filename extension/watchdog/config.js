@@ -1,6 +1,5 @@
 const config = {
-	apiKey: "VspPFzfuDb3PfFBO2pleD7B1xcMtFdaNpCZV0OTfBDQp",
-	// apiKey: "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",
+	apiKey: "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",
 };
 
 module.exports = config;

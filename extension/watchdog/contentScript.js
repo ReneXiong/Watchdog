@@ -10,60 +10,67 @@ const client = axios.create({
 
 // Process each post as trigger or not
 function isTrigger(text) {
-	// Parse triggers
-	let triggers = [];
-	chrome.storage.sync.get("settings", function (result) {
-		const settings = result.settings;
-		if (settings["ptsd"]) {
-			triggers.push("War and gore");
-		}
-		if (settings["racism"]) {
-			triggers.push("Race-related hate");
-		}
-		if (settings["sexism"]) {
-			triggers.push("Gender-related hate");
-		}
-		if (settings["dysmorphia"]) {
-			triggers.push("Body-related hate");
-		}
-		if (settings["ss"]) {
-			triggers.push("Sexual violence");
-		}
-		if (settings["selfharm"]) {
-			triggers.push("Suicide and self-harm");
-		}
-		triggers = triggers.join(", ");
-	});
-	const params = {
-		messages: [
-			{
-				role: "system",
-				content:
-					"You are an application that responds only with a 'Yes.' or a 'No.' whether the given text is likely to be triggering or not.",
-			},
-			{
-				role: "user",
-				content: `Answer only with Yes or No. Will the following text individuals with the trigger/s ${triggers} ${text}`,
-			},
-		],
-		model: "gpt-3.5-turbo-16k-0613",
-		max_tokens: 2,
-		temperature: 0,
-	};
+	return new Promise((resolve, reject) => {
+		// Parse triggers
+		let triggers = [];
+		chrome.storage.sync.get("settings", function (result) {
+			const settings = result.settings;
+			if (settings["ptsd"]) {
+				triggers.push("War");
+			}
+			if (settings["racism"]) {
+				triggers.push("Race-related hate");
+			}
+			if (settings["sexism"]) {
+				triggers.push("Gender-related hate");
+			}
+			if (settings["dysmorphia"]) {
+				triggers.push("Body-related hate");
+			}
+			if (settings["ss"]) {
+				triggers.push("Sexual violence");
+			}
+			if (settings["selfharm"]) {
+				triggers.push("Suicide and self-harm");
+			}
+			triggers = triggers.join(", ");
 
-	// Call GPT
-	client
-		.post("https://api.openai.com/v1/chat/completions", params)
-		.then((response) => {
-			if (response.data.choices[0].message.content === "Yes.") {
-				console.log("Trigger detected!");
-				return true;
-			} else return false;
-		})
-		.catch((err) => {
-			console.log(err);
-			return false;
+			// Call GPT
+			const chat = `Answer only with 'Yes.' or 'No.'. Does the following tweet cover one of the following categories: ${triggers}? "${text}"`;
+			const params = {
+				messages: [
+					{
+						role: "system",
+						content:
+							"You are an application that determines whether the given text might be triggering.",
+					},
+					{
+						role: "user",
+						content: chat,
+					},
+				],
+				model: "gpt-3.5-turbo-16k-0613",
+				max_tokens: chat.split(" ").length,
+				temperature: 0,
+			};
+			client
+				.post("https://api.openai.com/v1/chat/completions", params)
+				.then((response) => {
+					console.log(response);
+					console.log(
+						`Message: ${text}\nTriggers: ${triggers}\nResponse: ${response.data.choices[0].message.content}`
+					);
+					if (response.data.choices[0].message.content == "Yes.") {
+						console.log("Trigger detected! inside isTrigger()");
+						resolve(true);
+					} else resolve(false);
+				})
+				.catch((err) => {
+					console.log(err);
+					reject(err);
+				});
 		});
+	});
 }
 
 // Blur all videos and images
@@ -120,18 +127,21 @@ function hidePosts() {
 			console.log("Checking tweets");
 			const tweets = document.querySelectorAll("article");
 			tweets.forEach((tweet) => {
-				if (isTrigger(tweet.textContent)) {
-					let topSpan = findSpans(tweet)[0].innerText.split(" ");
-					if (topSpan[topSpan.length - 1] === "Retweeted") {
-						findSpans(tweet)[8].innerHTML =
-							innerHTML = `<i>This tweet contains themes that may upset you.</i><br/><br/><small>This warning was brought to you by <b>Watchdog</b>.</small>`;
-					} else {
-						findSpans(
-							tweet
-						)[5].innerHTML = `<i>This tweet contains themes that may upset you.</i><br/><br/><small>This warning was brought to you by <b>Watchdog</b>.</small>`;
+				isTrigger(tweet.textContent).then((triggerDetected) => {
+					if (triggerDetected) {
+						console.log("Trigger detected!");
+						let topSpan = findSpans(tweet)[0].innerText.split(" ");
+						if (topSpan[topSpan.length - 1] === "Retweeted") {
+							findSpans(tweet)[8].parentNode.innerHTML =
+								innerHTML = `<i>This tweet contains themes that may upset you.</i><br/><br/><small>This warning was brought to you by <b>Watchdog</b>.</small>`;
+						} else {
+							findSpans(
+								tweet
+							)[5].parentNode.innerHTML = `<i>This tweet contains themes that may upset you.</i><br/><br/><small>This warning was brought to you by <b>Watchdog</b>.</small>`;
+						}
+						hideImage(tweet);
 					}
-					hideImage(tweet);
-				}
+				});
 			});
 		}
 		// FACEBOOK
@@ -141,7 +151,7 @@ function hidePosts() {
 			console.log("Checking posts");
 			const posts = document.querySelectorAll('div[data-ad-preview="message"]');
 			posts.forEach((post) => {
-				if (isTrigger(post.textContent)) {
+				if (isTrigger(post.textContent) === true) {
 					post.innerHTML = `<i>This post contains themes that may upset you.</i><br/><br/><small>This warning was brought to you by <b>Watchdog.</b></small>`;
 				}
 				hideImage(post.parentNode.parentNode);
