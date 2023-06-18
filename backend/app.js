@@ -11,6 +11,7 @@ var ibm_credentials = fs.readFileSync('ibm.credentials');
 const IBMAPIController = require('./controller/IBMAPIController.js').controller;
 
 
+
 app.use(session({
     secret: '51522',
     resave: false,
