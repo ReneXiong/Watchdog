@@ -10,9 +10,8 @@ let queries = 0;
 // });
 
 function isTrigger(text) {
-	let value = Math.random() <= 0.5;
-	console.log(value);
-	return value;
+	if (text.includes("Cuban")) return true;
+	else return false;
 	// const params = {
 	// 	prompt: `Answer with a Yes or a No only. Does the following text have the potential to upset an individual triggered by ${triggers}?\n +
 	// 		${text}`,
@@ -38,7 +37,10 @@ function isTrigger(text) {
 
 function hideImage(e) {
 	function searchForImg(element) {
-		if (element.tagName.toLowerCase() === "img" && element.alt !== "") {
+		if (
+			(element.tagName.toLowerCase() === "img" && element.alt !== "") ||
+			element.tagName.toLowerCase() === "video"
+		) {
 			console.log(element);
 			element.style.filter = "blur(20px)";
 			element.parentNode.style.filter = "blur(20px)";
@@ -77,8 +79,6 @@ function findInnerFacebook(e) {
 }
 
 function hidePosts() {
-	queries++;
-	console.log(queries);
 	// TWITTER
 	const twt = "https://twitter.com";
 	const regex_twt = new RegExp(`^${twt}`);

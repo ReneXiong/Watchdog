@@ -6,10 +6,8 @@ const config = {
 		"Gender-based hate",
 		"Body image hate",
 		"Sexual violence",
-		"Self harm",
+		"Suicide and self harm",
 	],
 };
 
 module.exports = config;
-
-// export default config;

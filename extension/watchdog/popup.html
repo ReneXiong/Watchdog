@@ -63,7 +63,7 @@
                 <span class="tooltip">Reddit</span>
               </div>
               <label class="switch">
-                <input type="checkbox" id="redditSwitch" />
+                <input type="checkbox" id="reddit" />
                 <span class="slider round"></span>
               </label>
             </div>
@@ -73,7 +73,7 @@
                 <span class="tooltip">Twitter</span>
               </div>
               <label class="switch">
-                <input type="checkbox" id="twitterSwitch" />
+                <input type="checkbox" id="twitter" />
                 <span class="slider round"></span>
               </label>
             </div>
@@ -83,7 +83,7 @@
                 <span class="tooltip">Facebook</span>
               </div>
               <label class="switch">
-                <input type="checkbox" id="facebookSwitch" />
+                <input type="checkbox" id="facebook" />
                 <span class="slider round"></span>
               </label>
             </div>
@@ -104,12 +104,12 @@
           <span class="header-text"><span>Selected Triggers</span></span>
           <div class="trigger-container">
             <ul class="ks-cboxtags">
-              <li><input type="checkbox" id="checkboxOne" value="War and Gore"><label for="checkboxOne">War and Gore</label></li>
-              <li><input type="checkbox" id="checkboxTwo" value="Race-based Hate"><label for="checkboxTwo">Race-based Hate</label></li>
-              <li><input type="checkbox" id="checkboxThree" value="Gender-based Hate" checked><label for="checkboxThree">Gender-based Hate</label></li>
-              <li><input type="checkbox" id="checkboxFour" value="Body Image Hate" checked><label for="checkboxFour">Body-based Hate</label></li>
-              <li><input type="checkbox" id="checkboxFive" value="Sexual Violence"><label for="checkboxFive">Sexual Violence</label></li>
-              <li><input type="checkbox" id="checkboxSix" value="Self harm"><label for="checkboxSix">Self harm</label></li>
+              <li><input type="checkbox" id="ptsd" value="War and Gore"><label for="ptsd">War and Gore</label></li>
+              <li><input type="checkbox" id="racism" value="Race-based Hate"><label for="racism">Race-based Hate</label></li>
+              <li><input type="checkbox" id="sexism" value="Gender-based Hate"><label for="sexism">Gender-based Hate</label></li>
+              <li><input type="checkbox" id="dysmorphia" value="Body Image Hate"><label for="dysmorphia">Body-based Hate</label></li>
+              <li><input type="checkbox" id="ss" value="Sexual Violence"><label for="ss">Sexual Violence</label></li>
+              <li><input type="checkbox" id="selfharm" value="Self harm"><label for="selfharm">Suicide and self-harm</label></li>
             </ul>
           </div>
           <span class="discount-text-1"><span>Want more options?</span></span>
@@ -143,5 +143,6 @@
     </footer>
     <script src="worker/shared.js" defer></script>
     <script src="popup.js" defer></script>
+    <script src="settingsHandler.js" defer></script>
   </body>
 </html>
