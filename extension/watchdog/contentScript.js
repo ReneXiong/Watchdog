@@ -1,13 +1,12 @@
-import { config } from "./config.js";
+import config from "./config.js";
 import axios from "axios";
-
 const triggers = config.triggers.join(", ");
 
-const client = axios.create({
-	headers: {
-		Authorization: "Bearer " + config.apiKey,
-	},
-});
+// const client = axios.create({
+// 	headers: {
+// 		Authorization: "Bearer " + config.apiKey,
+// 	},
+// });
 
 function isTrigger(text) {
 	let value = Math.random() <= 0.5;
@@ -36,17 +35,15 @@ function isTrigger(text) {
 	// 	});
 }
 
-function hideImageTweet(e) {
+function hideImage(e) {
 	function searchForImg(element) {
-		if (element.tagName.toLowerCase() === "img") {
-			element.style.display = "none";
-			return;
+		if (element.tagName.toLowerCase() === "img" && element.alt !== "") {
+			console.log(element);
+			element.style.filter = "blur(20px)";
 		}
-		for (let i = 0; i < element.childNodes.length; i++) {
-			const child = element.childNodes[i];
-			if (child.nodeType === Node.ELEMENT_NODE) {
-				searchForImg(child);
-			}
+		for (let i = 0; i < element.children.length; i++) {
+			const child = element.children[i];
+			searchForImg(child);
 		}
 	}
 	searchForImg(e);
@@ -82,33 +79,36 @@ function hidePosts() {
 	const twt = "https://twitter.com";
 	const regex_twt = new RegExp(`^${twt}`);
 	if (regex_twt.test(window.location.href)) {
-		const posts = document.querySelectorAll("article");
-		posts.forEach((post) => {
-			if (isTrigger(post.textContent)) {
-				let topSpan = findSpans(post)[0].innerText.split(" ");
+		console.log("Checking tweets");
+		const tweets = document.querySelectorAll("article");
+		tweets.forEach((tweet) => {
+			if (isTrigger(tweet.textContent)) {
+				let topSpan = findSpans(tweet)[0].innerText.split(" ");
 				if (topSpan[topSpan.length - 1] === "Retweeted") {
-					findSpans(post)[8].innerHTML =
-						innerHTML = `<i>This post contains themes that may upset you.</i><br/><br/><small>This warning was brought to you by <b>Watchdog</b>.</small>`;
+					findSpans(tweet)[8].innerHTML =
+						innerHTML = `<i>This tweet contains themes that may upset you.</i><br/><br/><small>This warning was brought to you by <b>Watchdog</b>.</small>`;
 				} else {
 					findSpans(
-						post
-					)[5].innerHTML = `<i>This post contains themes that may upset you.</i><br/><br/><small>This warning was brought to you by <b>Watchdog</b>.</small>`;
+						tweet
+					)[5].innerHTML = `<i>This tweet contains themes that may upset you.</i><br/><br/><small>This warning was brought to you by <b>Watchdog</b>.</small>`;
 				}
-				hideImageTweet(post);
+				hideImage(tweet);
 			}
 		});
 	}
 	// FACEBOOK
-	const fb = "https://facebook.com";
+	const fb = "https://www.facebook.com";
 	const regex_fb = new RegExp(`^${fb}`);
 	if (regex_fb.test(window.location.href)) {
+		console.log("Matches fb!");
+		console.log("Checking posts");
 		const posts = document.querySelectorAll('div[data-ad-preview="message"]');
 		posts.forEach((post) => {
 			if (isTrigger(post.textContent)) {
-				findInnerFacebook(
-					post
-				).innerHTML = `<i>This post contains themes that may upset you.</i><br/><br/><small>This warning was brought to you by <b>Watchdog.</b></small>`;
+				post.innerHTML = `<i>This post contains themes that may upset you.</i><br/><br/><small>This warning was brought to you by <b>Watchdog.</b></small>`;
 			}
+			hideImage(post.parentNode.parentNode);
+			console.log(post.parentNode.parentNode);
 		});
 	}
 }
