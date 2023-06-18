@@ -19,12 +19,4 @@ function checkboxChanged(checkboxId) {
 			console.log(settings);
 		});
 	});
-
-	// if (checkbox.checked) {
-	// 	console.log(`Checkbox ${checkboxId} is checked.`);
-	// 	// Perform any action or call any function you want here
-	// } else {
-	// 	console.log(`Checkbox ${checkboxId} is unchecked.`);
-	// 	// Perform any action or call any function you want here
-	// }
 }

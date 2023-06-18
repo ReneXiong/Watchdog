@@ -1,47 +1,78 @@
 import config from "./config.js";
 import axios from "axios";
-const triggers = config.triggers.join(", ");
-let queries = 0;
 
-// const client = axios.create({
-// 	headers: {
-// 		Authorization: "Bearer " + config.apiKey,
-// 	},
-// });
+// GPT stuff
+const client = axios.create({
+	headers: {
+		Authorization: "Bearer " + config.apiKey,
+	},
+});
 
+// Process each post as trigger or not
 function isTrigger(text) {
-	if (text.includes("Cuban")) return true;
-	else return false;
-	// const params = {
-	// 	prompt: `Answer with a Yes or a No only. Does the following text have the potential to upset an individual triggered by ${triggers}?\n +
-	// 		${text}`,
-	// 	model: "davinci-text-003",
-	// 	max_tokens: 2,
-	// 	temperature: 0,
-	// };
-	// console.log(config.apiKey);
-	// client
-	// 	.post("https://api.openai.com/v1/completions", params)
-	// 	.then((result) => {
-	// 		const response = result.data.choices[0].text;
-	// 		console.log(params.prompt);
-	// 		console.log("GPT says", response);
-	// 		if (response === "Yes.") return true;
-	// 		else return false;
-	// 	})
-	// 	.catch((err) => {
-	// 		console.log(err);
-	// 		return false;
-	// 	});
+	// Parse triggers
+	let triggers = [];
+	chrome.storage.local.get("settings", function (result) {
+		const settings = result.settings;
+		if (settings["ptsd"]) {
+			triggers.push("War and gore");
+		}
+		if (settings["racism"]) {
+			triggers.push("Race-related hate");
+		}
+		if (settings["sexism"]) {
+			triggers.push("Gender-related hate");
+		}
+		if (settings["dysmorphia"]) {
+			triggers.push("Body-related hate");
+		}
+		if (settings["ss"]) {
+			triggers.push("Sexual violence");
+		}
+		if (settings["selfharm"]) {
+			triggers.push("Suicide and self-harm");
+		}
+		settings.join(", ");
+	});
+	const params = {
+		messages: [
+			{
+				role: "system",
+				content:
+					"You are an application that responds only with a 'Yes.' or a 'No.' whether the given text is likely to be triggering or not.",
+			},
+			{
+				role: "user",
+				content: `Answer only with Yes or No. Will the following text individuals with the trigger/s ${triggers} ${text}`,
+			},
+		],
+		model: "gpt-3.5-turbo",
+		max_tokens: 2,
+		temperature: 0,
+	};
+
+	// Call GPT
+	client
+		.post("https://api.openai.com/v1/chat/completions", params)
+		.then((response) => {
+			if (response.data.choices[0].message.content === "Yes.") {
+				console.log("Trigger detected!");
+				return true;
+			} else return false;
+		})
+		.catch((err) => {
+			console.log(err);
+			return false;
+		});
 }
 
+// Blur all videos and images
 function hideImage(e) {
 	function searchForImg(element) {
 		if (
 			(element.tagName.toLowerCase() === "img" && element.alt !== "") ||
 			element.tagName.toLowerCase() === "video"
 		) {
-			console.log(element);
 			element.style.filter = "blur(20px)";
 			element.parentNode.style.filter = "blur(20px)";
 		}
@@ -79,10 +110,16 @@ function findInnerFacebook(e) {
 }
 
 function hidePosts() {
+	const sites = { twitter: false, facebook: false };
+	chrome.storage.local.get("settings", function (result) {
+		const settings = result.settings;
+		if (settings["twitter"]) sites.twitter = true;
+		if (settings["facebook"]) sites.facebook = true;
+	});
 	// TWITTER
 	const twt = "https://twitter.com";
 	const regex_twt = new RegExp(`^${twt}`);
-	if (regex_twt.test(window.location.href)) {
+	if (sites.twitter && regex_twt.test(window.location.href)) {
 		console.log("Checking tweets");
 		const tweets = document.querySelectorAll("article");
 		tweets.forEach((tweet) => {
@@ -103,8 +140,7 @@ function hidePosts() {
 	// FACEBOOK
 	const fb = "https://www.facebook.com";
 	const regex_fb = new RegExp(`^${fb}`);
-	if (regex_fb.test(window.location.href)) {
-		console.log("Matches fb!");
+	if (sites.facebook && regex_fb.test(window.location.href)) {
 		console.log("Checking posts");
 		const posts = document.querySelectorAll('div[data-ad-preview="message"]');
 		posts.forEach((post) => {
