@@ -52,7 +52,8 @@ class UserController {
                     this.res.status(403).json({ "message": "account information is not correct" });
                 } else {
                     this.req.session.userId = email;
-                    this.res.status(200).json({ "result": "sucess" });
+                    this.res.status(200).json({ "result": "success", "username": user.username });
+
                 }
             }
         }
