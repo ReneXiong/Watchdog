@@ -6,6 +6,11 @@ const port = 3000
 
 const UserController = require('./controller/UserController.js').controller;
 
+var fs = require("fs");
+var ibm_credentials = fs.readFileSync('ibm.credentials');
+const IBMAPIController = require('./controller/IBMAPIController.js').controller;
+
+
 
 app.use(session({
     secret: '51522',
@@ -61,6 +66,8 @@ app.post('/register', globalExceptionHandle((req, res) => new UserController(req
 app.get('/logout', globalExceptionHandle((req, res) => new UserController(req, res).logout()));
 
 app.post('/resetPwd', globalExceptionHandle((req, res) => new UserController(req, res).forgetOrResetPwd()));
+
+app.post('/analyze', globalExceptionHandle((req,res) => new IBMAPIController(req,res, ibm_credentials).callNLUAPI()))
 
 // app.get('/login_test', (req, res) => {
 //     if (req.session.userId === undefined) {
