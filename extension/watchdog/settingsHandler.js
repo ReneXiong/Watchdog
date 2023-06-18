@@ -11,10 +11,10 @@ document.addEventListener("DOMContentLoaded", () => {
 function checkboxChanged(checkboxId) {
 	const checkbox = document.getElementById(checkboxId);
 
-	chrome.storage.local.get("settings", function (result) {
+	chrome.storage.sync.get("settings", function (result) {
 		const settings = result.settings;
 		settings[`${checkboxId}`] = !settings[`${checkboxId}`];
-		chrome.storage.local.set({ settings: settings }, function () {
+		chrome.storage.sync.set({ settings: settings }, function () {
 			console.log("Settings updated");
 			console.log(settings);
 		});

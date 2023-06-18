@@ -12,7 +12,7 @@ const client = axios.create({
 function isTrigger(text) {
 	// Parse triggers
 	let triggers = [];
-	chrome.storage.local.get("settings", function (result) {
+	chrome.storage.sync.get("settings", function (result) {
 		const settings = result.settings;
 		if (settings["ptsd"]) {
 			triggers.push("War and gore");
@@ -110,46 +110,44 @@ function findInnerFacebook(e) {
 }
 
 function hidePosts() {
-	const sites = { twitter: false, facebook: false };
-	chrome.storage.local.get("settings", function (result) {
+	chrome.storage.sync.get("settings", function (result) {
 		const settings = result.settings;
-		if (settings["twitter"]) sites.twitter = true;
-		if (settings["facebook"]) sites.facebook = true;
-	});
-	// TWITTER
-	const twt = "https://twitter.com";
-	const regex_twt = new RegExp(`^${twt}`);
-	if (sites.twitter && regex_twt.test(window.location.href)) {
-		console.log("Checking tweets");
-		const tweets = document.querySelectorAll("article");
-		tweets.forEach((tweet) => {
-			if (isTrigger(tweet.textContent)) {
-				let topSpan = findSpans(tweet)[0].innerText.split(" ");
-				if (topSpan[topSpan.length - 1] === "Retweeted") {
-					findSpans(tweet)[8].innerHTML =
-						innerHTML = `<i>This tweet contains themes that may upset you.</i><br/><br/><small>This warning was brought to you by <b>Watchdog</b>.</small>`;
-				} else {
-					findSpans(
-						tweet
-					)[5].innerHTML = `<i>This tweet contains themes that may upset you.</i><br/><br/><small>This warning was brought to you by <b>Watchdog</b>.</small>`;
+		console.log(settings);
+		// TWITTER
+		const twt = "https://twitter.com";
+		const regex_twt = new RegExp(`^${twt}`);
+		if (settings["twitter"] && regex_twt.test(window.location.href)) {
+			console.log("Checking tweets");
+			const tweets = document.querySelectorAll("article");
+			tweets.forEach((tweet) => {
+				if (isTrigger(tweet.textContent)) {
+					let topSpan = findSpans(tweet)[0].innerText.split(" ");
+					if (topSpan[topSpan.length - 1] === "Retweeted") {
+						findSpans(tweet)[8].innerHTML =
+							innerHTML = `<i>This tweet contains themes that may upset you.</i><br/><br/><small>This warning was brought to you by <b>Watchdog</b>.</small>`;
+					} else {
+						findSpans(
+							tweet
+						)[5].innerHTML = `<i>This tweet contains themes that may upset you.</i><br/><br/><small>This warning was brought to you by <b>Watchdog</b>.</small>`;
+					}
+					hideImage(tweet);
 				}
-				hideImage(tweet);
-			}
-		});
-	}
-	// FACEBOOK
-	const fb = "https://www.facebook.com";
-	const regex_fb = new RegExp(`^${fb}`);
-	if (sites.facebook && regex_fb.test(window.location.href)) {
-		console.log("Checking posts");
-		const posts = document.querySelectorAll('div[data-ad-preview="message"]');
-		posts.forEach((post) => {
-			if (isTrigger(post.textContent)) {
-				post.innerHTML = `<i>This post contains themes that may upset you.</i><br/><br/><small>This warning was brought to you by <b>Watchdog.</b></small>`;
-			}
-			hideImage(post.parentNode.parentNode);
-		});
-	}
+			});
+		}
+		// FACEBOOK
+		const fb = "https://www.facebook.com";
+		const regex_fb = new RegExp(`^${fb}`);
+		if (settings["facebook"] && regex_fb.test(window.location.href)) {
+			console.log("Checking posts");
+			const posts = document.querySelectorAll('div[data-ad-preview="message"]');
+			posts.forEach((post) => {
+				if (isTrigger(post.textContent)) {
+					post.innerHTML = `<i>This post contains themes that may upset you.</i><br/><br/><small>This warning was brought to you by <b>Watchdog.</b></small>`;
+				}
+				hideImage(post.parentNode.parentNode);
+			});
+		}
+	});
 }
 
 setInterval(hidePosts, 2000);

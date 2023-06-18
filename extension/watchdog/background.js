@@ -13,7 +13,7 @@ chrome.runtime.onInstalled.addListener(function () {
 	};
 
 	// Save the default settings to Chrome storage
-	chrome.storage.local.set({ settings: watchdogSettings }, function () {
+	chrome.storage.sync.set({ settings: watchdogSettings }, function () {
 		console.log("Default settings initialized");
 	});
 });
