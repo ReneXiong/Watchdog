@@ -11,10 +11,10 @@ class UserRepo extends Model {
 
     static async addUser(username, email, pwd) {
         const [user, created] = await UserRepo.findOrCreate(({
-            where: {Email: email},
+            where: {email: email},
             defaults: {
-                userName: username,
-                Pass: pwd,
+                username: username,
+                pwd: pwd,
                 War: 0,
                 Racial: 0,
                 Gender: 0,
@@ -22,6 +22,8 @@ class UserRepo extends Model {
                 Sexual: 0
             }
         }))
+
+        return user;
 
     }
 
@@ -37,16 +39,16 @@ class UserRepo extends Model {
 
 UserRepo.init( {
     // Model attributes are defined here
-    userName: {
+    username: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    Email: {
+    email: {
         type: DataTypes.STRING,
         allowNull: false,
         primaryKey: true
     },
-    Pass: {
+    pwd: {
         type: DataTypes.STRING,
         allowNull: false
     },
