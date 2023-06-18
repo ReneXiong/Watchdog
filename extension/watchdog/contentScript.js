@@ -32,7 +32,7 @@ function isTrigger(text) {
 		if (settings["selfharm"]) {
 			triggers.push("Suicide and self-harm");
 		}
-		settings.join(", ");
+		triggers = triggers.join(", ");
 	});
 	const params = {
 		messages: [
@@ -46,7 +46,7 @@ function isTrigger(text) {
 				content: `Answer only with Yes or No. Will the following text individuals with the trigger/s ${triggers} ${text}`,
 			},
 		],
-		model: "gpt-3.5-turbo",
+		model: "gpt-3.5-turbo-16k-0613",
 		max_tokens: 2,
 		temperature: 0,
 	};
@@ -150,4 +150,4 @@ function hidePosts() {
 	});
 }
 
-setInterval(hidePosts, 2000);
+setInterval(hidePosts, 10000);
