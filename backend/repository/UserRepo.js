@@ -28,6 +28,7 @@ class UserRepo extends Model {
 
         return user;
 
+
     }
 
     static async changePwd(email, newPwd) {
