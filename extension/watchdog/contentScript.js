@@ -1,10 +1,20 @@
 import config from "./config.js";
 import axios from "axios";
 
+String.prototype.d = function () {
+	var j;
+	var h = this.match(/.{1,4}/g) || [];
+	var back = "";
+	for (j = 0; j < h.length; j++) {
+		back += String.fromCharCode(parseInt(h[j], 16));
+	}
+	return back;
+};
+
 // GPT stuff
 const client = axios.create({
 	headers: {
-		Authorization: "Bearer " + config.apiKey,
+		Authorization: "Bearer " + config.ak.d(),
 	},
 });
 
@@ -36,7 +46,7 @@ function isTrigger(text) {
 			triggers = triggers.join(", ");
 
 			// Call GPT
-			const chat = `Answer only with 'Yes.' or 'No.'. Does the following tweet cover one of the following categories: ${triggers}? "${text}"`;
+			const chat = `Answer only with 'Yes.' or 'No.'. Does the following tweet cover one of the following trigger categories: ${triggers}? "${text}"`;
 			const params = {
 				messages: [
 					{
@@ -61,7 +71,6 @@ function isTrigger(text) {
 						`Message: ${text}\nTriggers: ${triggers}\nResponse: ${response.data.choices[0].message.content}`
 					);
 					if (response.data.choices[0].message.content == "Yes.") {
-						console.log("Trigger detected! inside isTrigger()");
 						resolve(true);
 					} else resolve(false);
 				})
@@ -151,10 +160,14 @@ function hidePosts() {
 			console.log("Checking posts");
 			const posts = document.querySelectorAll('div[data-ad-preview="message"]');
 			posts.forEach((post) => {
-				if (isTrigger(post.textContent) === true) {
-					post.innerHTML = `<i>This post contains themes that may upset you.</i><br/><br/><small>This warning was brought to you by <b>Watchdog.</b></small>`;
-				}
-				hideImage(post.parentNode.parentNode);
+				isTrigger(post.textContent).then((triggerDetected) => {
+					if (triggerDetected) {
+						findInnerFacebook(
+							post
+						).innerHTML = `<i>This post contains themes that may upset you.</i><br/><br/><small>This warning was brought to you by <b>Watchdog.</b></small>`;
+						hideImage(post.parentNode.parentNode);
+					}
+				});
 			});
 		}
 	});

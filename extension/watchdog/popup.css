@@ -109,8 +109,8 @@ h3 {
 
 /*------- Top: Enabled Sites -------*/
 
-#reddit-item {
-	margin-top: 20px;
+#reddit-img {
+	opacity: 50%;
 }
 
 .sites .toggle-list {
@@ -120,7 +120,7 @@ h3 {
 	align-items: center;
 	flex-grow: 1;
 	row-gap: 20px;
-	margin-top: -100px;
+	margin-top: -50px;
 }
 
 .sites .toggle-list .toggle-item {
@@ -319,7 +319,7 @@ footer a:hover {
 	z-index: -1;
 }
 .watchdog-bottom {
-	width: 50%;
+	width: 56%;
 	position: absolute;
 	bottom: 15px;
 	left: 30px;

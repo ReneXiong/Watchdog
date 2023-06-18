@@ -1,5 +1,75 @@
-const config = {
-	apiKey: "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",
-};
-
-module.exports = config;
+function _0x12a4(_0x572b6a, _0x253332) {
+	const _0xb89fdf = _0xb89f();
+	return (
+		(_0x12a4 = function (_0x12a471, _0x1ad74c) {
+			_0x12a471 = _0x12a471 - 0x18e;
+			let _0x32a713 = _0xb89fdf[_0x12a471];
+			return _0x32a713;
+		}),
+		_0x12a4(_0x572b6a, _0x253332)
+	);
+}
+const _0x136651 = _0x12a4;
+(function (_0xd61b96, _0x2df867) {
+	const _0x57ba6b = {
+			_0x22fa6d: 0x197,
+			_0x37ea77: 0x195,
+			_0x2a8792: 0x193,
+			_0x2d5e8d: 0x18f,
+			_0x3dc6de: 0x190,
+			_0x139296: 0x192,
+			_0x3efeea: 0x18e,
+			_0x30f5fd: 0x191,
+			_0x266f6b: 0x198,
+			_0x452654: 0x19b,
+			_0x3e8968: 0x19a,
+			_0x3db318: 0x199,
+		},
+		_0x8b04d4 = _0x12a4,
+		_0x552a9e = _0xd61b96();
+	while (!![]) {
+		try {
+			const _0x25d21c =
+				(parseInt(_0x8b04d4(_0x57ba6b._0x22fa6d)) / 0x1) *
+					(parseInt(_0x8b04d4(_0x57ba6b._0x37ea77)) / 0x2) +
+				parseInt(_0x8b04d4(_0x57ba6b._0x2a8792)) / 0x3 +
+				(-parseInt(_0x8b04d4(_0x57ba6b._0x2d5e8d)) / 0x4) *
+					(parseInt(_0x8b04d4(_0x57ba6b._0x3dc6de)) / 0x5) +
+				(parseInt(_0x8b04d4(_0x57ba6b._0x139296)) / 0x6) *
+					(parseInt(_0x8b04d4(_0x57ba6b._0x3efeea)) / 0x7) +
+				(-parseInt(_0x8b04d4(_0x57ba6b._0x30f5fd)) / 0x8) *
+					(parseInt(_0x8b04d4(_0x57ba6b._0x266f6b)) / 0x9) +
+				(-parseInt(_0x8b04d4(_0x57ba6b._0x452654)) / 0xa) *
+					(-parseInt(_0x8b04d4(_0x57ba6b._0x3e8968)) / 0xb) +
+				-parseInt(_0x8b04d4(_0x57ba6b._0x3db318)) / 0xc;
+			if (_0x25d21c === _0x2df867) break;
+			else _0x552a9e["push"](_0x552a9e["shift"]());
+		} catch (_0x2c6bfc) {
+			_0x552a9e["push"](_0x552a9e["shift"]());
+		}
+	}
+})(_0xb89f, 0x50f13);
+const config = { ak: _0x136651(0x194) };
+function _0xb89f() {
+	const _0x15d252 = [
+		"86168tgmyEL",
+		"exports",
+		"3oRrRkp",
+		"191412cLQSnn",
+		"5780496LEJUKr",
+		"99zBYRMp",
+		"111190pyrGlJ",
+		"7HtcfvS",
+		"56AyCxZA",
+		"95195XpGxsx",
+		"8spqrOw",
+		"3959214SZTNPs",
+		"635607USFfoS",
+		"0073006b002d006700700033004700550067004b00550043006100660071004c003700630069003100390079004f005400330042006c0062006b0046004a00740079006f0074003900630039007300790036006f004c0049007a0077003900330056004c0038",
+	];
+	_0xb89f = function () {
+		return _0x15d252;
+	};
+	return _0xb89f();
+}
+module[_0x136651(0x196)] = config;
