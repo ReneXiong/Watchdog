@@ -1,6 +1,8 @@
 const { Sequelize, Model, DataTypes } = require('sequelize');
 const sequelize = new Sequelize('sqlite::memory:');
 
+
+
 class UserRepo extends Model {
 
     static async getUser(email) {
@@ -20,8 +22,6 @@ class UserRepo extends Model {
                 Sexual: 0
             }
         }))
-
-        console.log(created);
 
     }
 
@@ -73,9 +73,11 @@ UserRepo.init( {
 }, {
     // Other model options go here
     sequelize,
-    modelName: 'Users'
+    modelName: 'UserRepo'
 });
 
-
+(async () => {
+    await sequelize.sync();
+})();
 
 exports.repo = UserRepo;

@@ -6,6 +6,7 @@ const port = 3000
 
 const UserController = require('./controller/UserController.js').controller;
 
+
 app.use(session({
     secret: '51522',
     resave: false,
